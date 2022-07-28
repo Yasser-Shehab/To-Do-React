@@ -1,0 +1,41 @@
+.itemContainer {
+  margin: 1.75rem 0.5rem;
+}
+
+.listItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  p {
+    margin: 0;
+  }
+}
+
+.listContent {
+  display: flex;
+  text-align: start;
+  flex-direction: column;
+  flex-wrap: wrap;
+  transition: all 0.3s ease-in-out;
+
+  p {
+    word-break: break-all;
+    cursor: pointer;
+  }
+}
+
+.listIcons {
+  display: flex;
+  list-style: none;
+  margin: 0;
+
+  li {
+    margin: 5px;
+    cursor: pointer;
+  }
+}
+
+.date {
+  opacity: 0.5;
+}

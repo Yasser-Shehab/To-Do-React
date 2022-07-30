@@ -3,38 +3,12 @@ import { useEffect, useState } from "react";
 import { FaUserEdit } from "react-icons/fa";
 import Todolist from "./components/Todo-list/Todolist";
 import formatDate from "./utils/Utils";
+import Alert from "./components/Alert/Alert";
 
 //Importance
 //Progress
 //Filter (Importance , Progress)
 //Search
-
-// const data = [
-//   {
-//     id: "1",
-//     title: "walk the dogs",
-//     date: "December 25, 2022 23:15:30",
-//     isComplete: true,
-//   },
-//   {
-//     id: "2",
-//     title: "Buy groceries",
-//     date: "December 25, 2022 23:15:30",
-//     isComplete: false,
-//   },
-//   {
-//     id: "3",
-//     title: "Read Atomic Habits",
-//     date: "December 25, 2022 23:15:30",
-//     isComplete: false,
-//   },
-//   {
-//     id: "4",
-//     title: "Meet at 2hwa",
-//     date: "December 25, 2022 23:15:30",
-//     isComplete: false,
-//   },
-// ];
 
 const getLocalStorageData = () => {
   let localData = localStorage.getItem("list");
@@ -50,10 +24,15 @@ function App() {
   const [isEdit, setIsEdit] = useState(false);
   const [currentID, setCurrentID] = useState(null);
   const [toDoData, setToDoData] = useState(getLocalStorageData);
+  const [alert, setAlert] = useState({ show: false, msg: "", type: "" });
   const today = new Date();
 
   const handleInput = (event) => {
     setTitle((current) => (current = event.target.value));
+  };
+
+  const showAlert = (show = false, type = "", msg = "") => {
+    setAlert({ show, type, msg });
   };
 
   const handleSubmit = () => {
@@ -72,7 +51,7 @@ function App() {
         setTitle("");
         return item;
       });
-
+      setIsEdit(false);
       setToDoData(newList);
     } else {
       const newItem = {
@@ -83,6 +62,7 @@ function App() {
       };
       setTitle("");
       setToDoData([...toDoData, newItem]);
+      showAlert(true, "alert-success", "Item created successfuly");
     }
   };
 
@@ -94,6 +74,7 @@ function App() {
 
   const handleDelete = (id) => {
     setToDoData(toDoData.filter((item) => item.id !== id));
+    showAlert(true, "alert-info", "Item was deleted");
   };
   const handleComplete = (id) => {
     const newList = toDoData.map((item) => {
@@ -127,6 +108,7 @@ function App() {
         </div>
         <div className=" col-md-6 mx-auto mt-3">
           <div className="card p-3">
+            {alert.show && <Alert {...alert} removeAlert={showAlert} list={toDoData} />}
             <input
               type="text"
               placeholder="Title"
@@ -147,7 +129,7 @@ function App() {
       </div>
       {toDoData.length > 0 && (
         <div className="row">
-          <div className=" col-md-6 mx-auto mt-3">
+          <div className=" col-md-6 mx-auto m-3">
             <div className="card p-3">
               <Todolist
                 data={toDoData}

@@ -4,6 +4,8 @@ import { FaUserEdit } from "react-icons/fa";
 import Todolist from "./components/Todo-list/Todolist";
 import formatDate from "./utils/Utils";
 import Alert from "./components/Alert/Alert";
+import Filter from "./components/Filter/Filter";
+import Select from "./components/Select/Select";
 
 //Importance
 //Progress
@@ -21,14 +23,20 @@ const getLocalStorageData = () => {
 
 function App() {
   const [title, setTitle] = useState("");
+  const [priority, setPriority] = useState(2);
   const [isEdit, setIsEdit] = useState(false);
   const [currentID, setCurrentID] = useState(null);
+  const [showFilter, setShowFilter] = useState(false);
   const [toDoData, setToDoData] = useState(getLocalStorageData);
   const [alert, setAlert] = useState({ show: false, msg: "", type: "" });
   const today = new Date();
 
   const handleInput = (event) => {
     setTitle((current) => (current = event.target.value));
+  };
+
+  const handlePriority = (event) => {
+    setPriority((current) => (current = event.target.value));
   };
 
   const showAlert = (show = false, type = "", msg = "") => {
@@ -59,8 +67,10 @@ function App() {
         title,
         date: formatDate(today, "mm/dd/yy"),
         isComplete: false,
+        priority: priority,
       };
       setTitle("");
+      setPriority(2);
       setToDoData([...toDoData, newItem]);
       showAlert(true, "alert-success", "Item created successfuly");
     }
@@ -92,9 +102,17 @@ function App() {
 
     setToDoData(newList);
   };
+  const handleShowFilter = () => {
+    setShowFilter((current) => (current = !current));
+  };
+
+  const handlePrioritySort = () => {
+    setToDoData(toDoData.sort((a, b) => a.priority - b.priority));
+  };
 
   useEffect(() => {
     localStorage.setItem("list", JSON.stringify(toDoData));
+    getLocalStorageData();
   }, [toDoData]);
 
   return (
@@ -112,10 +130,12 @@ function App() {
             <input
               type="text"
               placeholder="Title"
-              className="p-2"
+              className="p-2 mb-2"
               value={title}
               onChange={handleInput}
             />
+            <button onClick={handlePrioritySort}>Sort</button>
+            <Select priority={priority} handlePriority={handlePriority} />
             <button
               type="button"
               onClick={handleSubmit}
@@ -127,6 +147,15 @@ function App() {
           </div>
         </div>
       </div>
+      {toDoData.length > 0 && (
+        <div className="row">
+          <Filter
+            showFilter={showFilter}
+            handleShowFilter={handleShowFilter}
+            handlePrioritySort={handlePrioritySort}
+          />
+        </div>
+      )}
       {toDoData.length > 0 && (
         <div className="row">
           <div className=" col-md-6 mx-auto m-3">

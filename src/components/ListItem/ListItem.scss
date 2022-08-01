@@ -25,6 +25,13 @@
   }
 }
 
+.additionalDetails {
+  display: flex;
+  p {
+    margin-right: 1rem;
+  }
+}
+
 .listIcons {
   display: flex;
   list-style: none;

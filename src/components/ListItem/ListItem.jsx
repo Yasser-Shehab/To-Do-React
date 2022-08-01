@@ -2,7 +2,13 @@ import React from "react";
 import "./ListItem.scss";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
-function ListItem({ title, date, id, isComplete, onDelete, onEdit, onComplete }) {
+const priorityNames = {
+  1: "High",
+  2: "Medium",
+  3: "Low",
+};
+
+function ListItem({ title, date, id, isComplete, onDelete, onEdit, onComplete, priority }) {
   return (
     <div
       className="itemContainer"
@@ -18,7 +24,10 @@ function ListItem({ title, date, id, isComplete, onDelete, onEdit, onComplete })
             style={{ color: isComplete ? "green" : "black" }}
           >
             <p>{title}</p>
-            <p className="date">{date}</p>
+            <div className="additionalDetails">
+              <p className="date">{date}</p>
+              <p>Priority : {priorityNames[priority]}</p>
+            </div>
           </div>
           <ul className="listIcons">
             <li onClick={() => onEdit(id, title)}>

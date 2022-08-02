@@ -25,9 +25,11 @@ function App() {
   const [title, setTitle] = useState("");
   const [priority, setPriority] = useState(2);
   const [isEdit, setIsEdit] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const [currentID, setCurrentID] = useState(null);
   const [showFilter, setShowFilter] = useState(false);
   const [toDoData, setToDoData] = useState(getLocalStorageData);
+  const [FilteredData, setFilteredData] = useState(toDoData);
   const [alert, setAlert] = useState({ show: false, msg: "", type: "" });
   const today = new Date();
 
@@ -107,8 +109,29 @@ function App() {
   };
 
   const handlePrioritySort = () => {
-    setToDoData(toDoData.sort((a, b) => a.priority - b.priority));
+    const priorityAscending = [...toDoData].sort((a, b) => a.priority - b.priority);
+    setToDoData(priorityAscending);
+    // setToDoData(toDoData.sort((a, b) => a.priority - b.priority));
   };
+  const handleSelect = (event) => {
+    const { value } = event.target;
+
+    if (value == "priority") {
+      handlePrioritySort();
+    }
+  };
+
+  const onSearchChange = (event) => {
+    const { value } = event.target;
+    setSearchTerm(() => value.toLocaleUpperCase());
+  };
+
+  useEffect(() => {
+    const newFilteredNotes = toDoData.filter((item) => {
+      return item.title.toLocaleUpperCase().includes(searchTerm);
+    });
+    setFilteredData(() => newFilteredNotes);
+  }, [searchTerm]);
 
   useEffect(() => {
     localStorage.setItem("list", JSON.stringify(toDoData));
@@ -134,7 +157,6 @@ function App() {
               value={title}
               onChange={handleInput}
             />
-            <button onClick={handlePrioritySort}>Sort</button>
             <Select priority={priority} handlePriority={handlePriority} />
             <button
               type="button"
@@ -153,6 +175,8 @@ function App() {
             showFilter={showFilter}
             handleShowFilter={handleShowFilter}
             handlePrioritySort={handlePrioritySort}
+            handleSelect={handleSelect}
+            onSearchChange={onSearchChange}
           />
         </div>
       )}
@@ -161,7 +185,7 @@ function App() {
           <div className=" col-md-6 mx-auto m-3">
             <div className="card p-3">
               <Todolist
-                data={toDoData}
+                data={FilteredData}
                 onDelete={handleDelete}
                 onEdit={handleEdit}
                 onComplete={handleComplete}

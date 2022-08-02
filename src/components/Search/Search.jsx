@@ -1,9 +1,9 @@
 import React from "react";
 
-function Search({ title }) {
+function Search({ title, onSearchChange }) {
   return (
     <>
-      <label for="exampleInputEmail1" className="form-label ">
+      <label htmlFor="exampleInputEmail1" className="form-label ">
         {title}
       </label>
       <input
@@ -12,6 +12,7 @@ function Search({ title }) {
         id="exampleInputEmail1"
         aria-describedby="emailHelp"
         placeholder="Text here..."
+        onChange={onSearchChange}
       />
     </>
   );

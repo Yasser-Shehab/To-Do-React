@@ -2,7 +2,13 @@ import Search from "../Search/Search";
 import Select from "../Select/Select";
 import "./Filter.scss";
 
-function Filter({ showFilter, handleShowFilter, handlePrioritySort }) {
+function Filter({
+  showFilter,
+  handleShowFilter,
+  handlePrioritySort,
+  handleSelect,
+  onSearchChange,
+}) {
   return (
     <>
       <div className="col-md-6 mx-auto m-3">
@@ -10,12 +16,16 @@ function Filter({ showFilter, handleShowFilter, handlePrioritySort }) {
           Filter
         </button>
         <div className="card p-3" style={{ display: showFilter ? "none" : "block" }}>
-          <Search title="Search by name" />
+          <Search title="Search by name" onSearchChange={onSearchChange} />
           <div>
-            <label for="exampleSelect1" class="form-label mt-4">
+            <label htmlFor="exampleSelect1" className="form-label mt-4">
               Sort By
             </label>
-            <Select filter={true} handlePrioritySort={handlePrioritySort} />
+            <Select
+              filter={true}
+              handlePrioritySort={handlePrioritySort}
+              handleSelect={handleSelect}
+            />
           </div>
         </div>
       </div>

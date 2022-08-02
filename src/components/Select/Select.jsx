@@ -1,11 +1,11 @@
 import "./Select.scss";
 
-function Select({ priority, handlePriority, filter, handlePrioritySort }) {
+function Select({ priority, filter, handleSelect, handlePriority }) {
   if (filter) {
     return (
-      <select className="form-select" id="exampleSelect1">
+      <select className="form-select" id="exampleSelect1" onChange={handleSelect}>
         <option>Select An Option</option>
-        <option onClick={handlePrioritySort}>Priority</option>
+        <option value={"priority"}>Priority</option>
       </select>
     );
   }

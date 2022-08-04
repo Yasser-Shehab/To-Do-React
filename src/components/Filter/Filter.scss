@@ -1,0 +1,16 @@
+.filterBlock {
+  max-height: 0;
+  transition: max-height 0.15s ease-out;
+  overflow: hidden;
+}
+
+.showfilter {
+  max-height: 999px;
+  transition: max-height 0.4s ease-in-out;
+}
+
+.filterBox {
+  display: flex;
+  margin-top: 20px;
+  align-items: center;
+}

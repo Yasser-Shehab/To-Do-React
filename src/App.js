@@ -54,6 +54,7 @@ function App() {
           const updatedItem = {
             ...item,
             title,
+            priority,
           };
 
           return updatedItem;
@@ -62,6 +63,7 @@ function App() {
         return item;
       });
       setIsEdit(false);
+      setPriority(2);
       setToDoData(newList);
     } else {
       const newItem = {
@@ -78,9 +80,10 @@ function App() {
     }
   };
 
-  const handleEdit = (id, title) => {
+  const handleEdit = (id, title, priority) => {
     setIsEdit(true);
     setTitle(title);
+    setPriority(priority);
     setCurrentID(id);
   };
 
@@ -135,7 +138,7 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem("list", JSON.stringify(toDoData));
-    getLocalStorageData();
+    setFilteredData(getLocalStorageData());
   }, [toDoData]);
 
   return (
@@ -170,7 +173,7 @@ function App() {
         </div>
       </div>
       {toDoData.length > 0 && (
-        <div className="row">
+        <div className="row ">
           <Filter
             showFilter={showFilter}
             handleShowFilter={handleShowFilter}
@@ -180,7 +183,7 @@ function App() {
           />
         </div>
       )}
-      {toDoData.length > 0 && (
+      {FilteredData.length > 0 && (
         <div className="row">
           <div className=" col-md-6 mx-auto m-3">
             <div className="card p-3">

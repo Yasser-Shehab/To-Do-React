@@ -30,7 +30,7 @@ function ListItem({ title, date, id, isComplete, onDelete, onEdit, onComplete, p
             </div>
           </div>
           <ul className="listIcons">
-            <li onClick={() => onEdit(id, title)}>
+            <li onClick={() => onEdit(id, title, priority)}>
               <FaEdit />
             </li>
             <li onClick={() => onDelete(id)}>
